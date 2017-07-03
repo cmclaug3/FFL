@@ -3,6 +3,7 @@
 
 # NEEDS FIXING
 #	error: when trying to add Game in admin
+#	home page messed up.  template not right for log in
 
 
 # TODO

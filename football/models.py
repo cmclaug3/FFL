@@ -46,8 +46,8 @@ class Game(models.Model):
 	def mean_pa(self):
 		pass
 
-
-
+	def strength_of_schedule(self):
+		pass
 
 
 # class Game(models.Model):
