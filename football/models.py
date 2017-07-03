@@ -28,10 +28,23 @@ class Game(models.Model):
 	team = models.ForeignKey(Team)
 	points_for = models.FloatField()
 	points_against = models.FloatField()
+	win = models.BooleanField(default=True)
 	#opponent = models.ForeignKey(Team)
 
 	def __str__(self):
-		return '{} | week {} | {} - {}'.format(self.team, self.week, self.points_for, self.points_against,)
+		return '{} | week {} | {} - {}'.format(self.team, self.week, self.points_for, self.points_against)
+
+	def total_pf(self):
+		pass
+
+	def total_pa(self):
+		pass
+
+	def mean_pf(self):
+		pass
+
+	def mean_pa(self):
+		pass
 
 
 
