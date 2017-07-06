@@ -16,10 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from football.views import home
+from football.views import home, single_team
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^$', home, name='home')
+    url(r'^team/(?P<team_id>[0-9]+)$', single_team, name='single_team'),
+    url(r'^$', home, name='home'),
 ]
