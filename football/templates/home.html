@@ -7,12 +7,58 @@
 {% block content %}
 
 <h1>HOME PAGE</h1>
-<br>
 <h3>Welcome to the 2017 Fantasy Football season</h3>
 <br>
-{% for team in teams %}
+<!-- {% for team in teams %}
 <a href="{% url 'single_team' team_id=team.id %}">{{team.team_name}}</a>
 <br><br>
+{% endfor %} -->
+
+<table border="1">
+	<tr>
+		<td></td>
+		<th>Record</th>
+		<th>PF</th>
+		<th>PA</th>
+		<th>AW</th>
+		<th>PR</th>
+		<th>SOS</th>
+		<th>RSOS</th>
+		<th>PPWA</th>
+		<th>CON</th>
+		<th>SPEC</th>
+		<th>EF</th>
+		<th>MM</th>
+		<td></td>
+	</tr>
+
+<!-- {% for team in teams %} -->
+
+{% for game in team_one_games.team.all %}
+
+	<tr>
+		<th>{{game.team}}</th>
+		<td></td> <!-- Record -->
+		<td>{{game.points_for}}</td> <!-- PF -->
+		<td>{{game.points_against}}</td> <!-- PA -->
+		<td></td> <!-- AW -->
+		<td></td> <!-- PR -->
+		<td></td> <!-- SOS -->
+		<td></td> <!-- RSOS -->
+		<td></td> <!-- PF -->
+		<td></td> <!-- PPWA -->
+		<td></td> <!-- CON -->
+		<td></td> <!-- SPEC -->
+		<td></td> <!-- EF -->
+		<td></td> <!-- MM -->
+	</tr>
+
+
 {% endfor %}
+{% endfor %}
+
+
+</table>
+
 
 {% endblock content %}

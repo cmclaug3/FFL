@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Player Stats{% endblock title %}
+
+
+
+
+{% block content %}
+
+<i><h1>2017 Pre Season Totals</h1></i>
+
+<h1>Offense</h1>
+
+<h2>Passing</h2>
+
+<h3>Yards</h3>
+<ol>
+{% for p in pass_yds %}
+	<li>{{p.name}} {{p.team}} {{p.passing_yds}}</li>
+{% endfor %}
+</ol>
+
+<h3>Touch Downs</h3>
+<ol>
+{% for p in pass_tds %}
+	<li>{{p.name}} {{p.team}} {{p.passing_tds}}</li>
+{% endfor %}
+</ol>
+
+<h2>Rushing</h2>
+
+<h3>Yards</h3>
+<ol>
+{% for r in rush_yds %}
+	<li>{{r.name}} {{r.team}} {{r.rushing_yds}}</li>
+{% endfor %}
+</ol>
+
+<h3>Touch Downs</h3>
+<ol>
+{% for r in rush_tds %}
+	<li>{{r.name}} {{r.team}} {{r.rushing_tds}}</li>
+{% endfor %}
+</ol>
+
+<h2>Receiving</h2>
+
+<h1>Defense</h1>
+
+{% endblock content %}
