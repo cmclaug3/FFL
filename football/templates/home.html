@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load ffleague_custom_tags %}
 
 
 {% block title %}Home Page{% endblock title %}
@@ -27,21 +28,23 @@
 		<th>PPWA</th>
 		<th>CON</th>
 		<th>SPEC</th>
-		<th>EF</th>
-		<th>MM</th>
+		<th>Min</th>
+		<th>Max</th>
 		<td></td>
 	</tr>
 
-<!-- {% for team in teams %} -->
 
-{% for game in team_one_games.team.all %}
+{% for team in league_team_list %}
 
 	<tr>
-		<th>{{game.team}}</th>
-		<td></td> <!-- Record -->
-		<td>{{game.points_for}}</td> <!-- PF -->
-		<td>{{game.points_against}}</td> <!-- PA -->
-		<td></td> <!-- AW -->
+		<th>{{team.team_abbrev}}</th>
+		<td>{{team.wins}} - {{team.losses}}</td> <!-- Record -->
+		<td>{{team.points_for}}</td> <!-- PF -->
+		<td>{{team.points_against}}</td> <!-- PA -->
+
+
+<!-- AW ATTEMPT SITTING IN NOTES.PY -->
+		<td></td>
 		<td></td> <!-- PR -->
 		<td></td> <!-- SOS -->
 		<td></td> <!-- RSOS -->
@@ -49,16 +52,26 @@
 		<td></td> <!-- PPWA -->
 		<td></td> <!-- CON -->
 		<td></td> <!-- SPEC -->
-		<td></td> <!-- EF -->
-		<td></td> <!-- MM -->
+		<td></td> <!-- min -->
+		<td></td> <!-- max -->
 	</tr>
 
 
 {% endfor %}
-{% endfor %}
 
 
 </table>
+
+<br>
+
+<h2>ScoreBoard</h2>
+
+{% for matchup in league_scoreboard %}
+
+<p>{{matchup.home_team.team_abbrev}}: {{matchup.home_score}} vs 
+   {{matchup.away_team.team_abbrev}}: {{matchup.away_score}}</p>
+
+{% endfor %}
 
 
 {% endblock content %}

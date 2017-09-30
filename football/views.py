@@ -4,9 +4,13 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 
-from football.models import Team, Week, Game
-import nflgame
+
 from django.views import View
+
+import nflgame
+import espnff
+import statistics as s
+
 
 
 
@@ -14,34 +18,44 @@ def home(request):
 	if not request.user.is_authenticated:
 		return redirect(reverse('account_login'))
 
-	team_one_games = Team.objects.get(id=1).team.all()
-	team_two_games = Team.objects.get(id=2).team.all()
-	team_three_games = Team.objects.get(id=3).team.all()
-	team_four_games = Team.objects.get(id=4).team.all()
+# ESPNFF API LEAGUE INFO
+	league_id = 336227
+	year = 2017
+	our_league = espnff.League(league_id, year)
 
-	# team_one_games = Game.objects.filter(team__id=1)
+	for team in our_league.teams:
+		score_list = team.scores
+		avg_pf = s.mean([i for i in score_list if i != 0])
 
+
+
+		
 
 	context = {
-		'teams': Team.objects.all(),
-		'team_one_games': team_one_games,
-		'team_two_games': team_two_games,
-		'team_three_games': team_three_games,
-		'team_four_games': team_four_games
+		'league_team_list': our_league.teams,
+		'league_scoreboard': our_league.scoreboard(), #current week
+
+
+		# 'teams': Team.objects.all(),
+		# 'team_one_games': team_one_games,
+		# 'team_two_games': team_two_games,
+		# 'team_three_games': team_three_games,
+		# 'team_four_games': team_four_games
 	}
 
 	return render(request, 'home.html', context)
-	# import ipdb; ipdb.set_trace()
 
 
 
-def single_team(request, team_id):
-	if not request.user.is_authenticated:
-		return redirect(reverse('account_login'))
-	context = {
-		'team': Team.objects.get(user=request.user, id=team_id)
-	}
-	return render(request, 'single_team.html', context)
+# # MAY BE OUTDATED# MAY BE OUTDATED
+# # MAY BE OUTDATED# MAY BE OUTDATED
+# def single_team(request, team_id):
+# 	if not request.user.is_authenticated:
+# 		return redirect(reverse('account_login'))
+# 	context = {
+# 		'team': Team.objects.get(user=request.user, id=team_id)
+# 	}
+# 	return render(request, 'single_team.html', context)
 
 
 
@@ -50,13 +64,19 @@ class PlayerStatsView(View):
 		if not request.user.is_authenticated:
 			return redirect(reverse('account_login'))
 
-		season2017 = nflgame.games(2017, kind='PRE')
+		season2017 = nflgame.games(2017)
 		players = nflgame.combine_game_stats(season2017)
 
 		pass_yds = players.passing().sort('passing_yds').limit(8)
 		pass_tds = players.passing().sort('passing_tds').limit(8)
 		rush_yds = players.rushing().sort('rushing_yds').limit(8)
 		rush_tds = players.rushing().sort('rushing_tds').limit(8)
+
+		all_games = nflgame.games(2017, kind="PRE")
+		
+		
+		# ADD
+		# receving, kickers, defense, etc
 
 		context = {
 			'pass_yds': pass_yds,
@@ -65,6 +85,26 @@ class PlayerStatsView(View):
 			'rush_tds': rush_tds
 		}
 		return render(request, 'player_stats.html', context)
+
+
+
+class NflPicksView(View):
+	def get(self, request):
+		if not request.user.is_authenticated:
+			return redirect(reverse('account_login'))
+
+
+# THIS NEEDS TO BE 2017 WEEK ONE (not working)
+		week_one = nflgame.games(2017, week=1)
+
+		context = {
+			'week_one': week_one
+		}
+		return render(request, 'nfl_picks.html', context)
+
+
+
+
 
 
 

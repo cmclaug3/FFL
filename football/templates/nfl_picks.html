@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Pick Zone{% endblock title %}
+
+
+
+{% block content %}
+
+
+<h1>PickZoneee</h1>
+
+
+{% for game in week_one %}
+
+<p>{{game}}</p>
+
+<br>
+
+{% endfor %}
+
+
+
+
+{% endblock content %}
