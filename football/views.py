@@ -23,39 +23,14 @@ def home(request):
 	year = 2017
 	our_league = espnff.League(league_id, year)
 
-	for team in our_league.teams:
-		score_list = team.scores
-		avg_pf = s.mean([i for i in score_list if i != 0])
-
-
-
-		
 
 	context = {
 		'league_team_list': our_league.teams,
 		'league_scoreboard': our_league.scoreboard(), #current week
-
-
-		# 'teams': Team.objects.all(),
-		# 'team_one_games': team_one_games,
-		# 'team_two_games': team_two_games,
-		# 'team_three_games': team_three_games,
-		# 'team_four_games': team_four_games
 	}
 
 	return render(request, 'home.html', context)
 
-
-
-# # MAY BE OUTDATED# MAY BE OUTDATED
-# # MAY BE OUTDATED# MAY BE OUTDATED
-# def single_team(request, team_id):
-# 	if not request.user.is_authenticated:
-# 		return redirect(reverse('account_login'))
-# 	context = {
-# 		'team': Team.objects.get(user=request.user, id=team_id)
-# 	}
-# 	return render(request, 'single_team.html', context)
 
 
 
