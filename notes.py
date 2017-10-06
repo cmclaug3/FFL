@@ -111,11 +111,20 @@
 	# rank_point = PF / Average League PF
 
 
-
-
-
 # <!-- CUSTOM FILTER TEST - CLOSE (may just be 0 division problem) -->
 # 		<td>{{ team.points_for|avg:"(team.wins + team.losses)" }} - {{ team.points_against|avg:"(team.wins + team.losses)" }}</td> <!-- AW -->
+
+
+
+
+
+
+
+# SORTABLE GRAPH IS WRONG BECAUSE IT USES DATA FROM UNCOMPLETED GAMES
+
+# big problems with uncompleted game data in GRAPH
+# 	need to change strict pf / pa to only use score data AFTER game
+
 
 
 

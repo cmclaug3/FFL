@@ -4,6 +4,14 @@
 
 {% block title %}Home Page{% endblock title %}
 
+{% block head %}
+<script>
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+</script>
+{% endblock head %}
+
 
 {% block content %}
 
@@ -11,7 +19,8 @@
 <h3>Welcome to the 2017 Fantasy Football season</h3>
 <br>
 
-<table border="1">
+<table id="myTable" class="table table-striped">
+<thead>
 	<tr>
 		<td></td>
 		<th>Record</th>
@@ -28,7 +37,8 @@
 		<th>Max</th>
 		<td></td>
 	</tr>
-
+</thead>
+<tbody>
 
 {% for team in league_team_list %}
 
@@ -54,7 +64,7 @@
 
 
 {% endfor %}
-
+</tbody>
 
 </table>
 

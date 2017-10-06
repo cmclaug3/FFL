@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 
-
 from django.views import View
 
 import nflgame
@@ -12,22 +11,44 @@ from espnff import League, Team
 import statistics as s
 
 
+
+
 class BetterTeam(Team):
     
     def __repr__(self):
         return 'BetterTeam({})'.format(self.team_name)
 
+    def get_week():
+	    import datetime
+	    start_date = datetime.date(2017, 9, 5).isocalendar()[1]
+	    now = datetime.date.today().isocalendar()[1]
+	    week = now - start_date
+	    return week
+
     #take zeros (unplayed games) out of pf (points scored) list
     @property
     def strict_pf_list(self):
-        return [i for i in self.scores if i != 0]
+    	def get_week():
+		    import datetime
+		    start_date = datetime.date(2017, 9, 5).isocalendar()[1]
+		    now = datetime.date.today().isocalendar()[1]
+		    week = now - start_date
+		    return week
+    	return self.scores[:(get_week()-1)]
+        # return [i for i in self.scores if i != 0]
 
     #take zeros (unplayed games) out of pa (opponent points scored) list
     #after generating poinsts against list from (scores_list - margin_of_victory_list)
     @property
     def strict_pa_list(self):
         pa_list = [x-y for x, y in zip(self.scores, self.mov)]
-        return [i for i in pa_list if i != 0]
+        def get_week():
+		    import datetime
+		    start_date = datetime.date(2017, 9, 5).isocalendar()[1]
+		    now = datetime.date.today().isocalendar()[1]
+		    week = now - start_date
+		    return week
+        return pa_list[:(get_week()-1)]
 
     #average pf VS average pa
     @property
@@ -86,7 +107,7 @@ class BetterLeague(League):
                 team.mov.append(mov)
 
         # sort by team ID
-        self.teams = sorted(self.teams, key=lambda x: x.team_id, reverse=False)
+        self.teams = sorted(self.teams, key=lambda x: (x.wins, x.points_for), reverse=True)
 
     #Sets callable attribute pr (power rank) to Team objects
     def pwr_ranking(self):
@@ -98,8 +119,7 @@ class BetterLeague(League):
         for player in new:
             setattr(player[0], 'pr', rank)
             rank += 1
-
-            
+  
     #Sets callable attribute sos (strength of schedule) to Team objects
     def strength_of_schedule(self):
         pa_master_list = []
