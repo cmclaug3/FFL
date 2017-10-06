@@ -34,7 +34,7 @@ class BetterTeam(Team):
 		    now = datetime.date.today().isocalendar()[1]
 		    week = now - start_date
 		    return week
-    	return self.scores[:(get_week()-1)]
+    	return self.scores[:(get_week())]
         # return [i for i in self.scores if i != 0]
 
     #take zeros (unplayed games) out of pa (opponent points scored) list
@@ -48,7 +48,7 @@ class BetterTeam(Team):
 		    now = datetime.date.today().isocalendar()[1]
 		    week = now - start_date
 		    return week
-        return pa_list[:(get_week()-1)]
+        return pa_list[:(get_week())]
 
     #average pf VS average pa
     @property
@@ -131,6 +131,19 @@ class BetterLeague(League):
             setattr(player[0], 'sos', rank)
             rank += 1
 
+    def remaining_sos(self):
+        schedule_master_list = []
+        def get_week():
+		    import datetime
+		    start_date = datetime.date(2017, 9, 5).isocalendar()[1]
+		    now = datetime.date.today().isocalendar()[1]
+		    week = now - start_date
+		    return week
+        for team in self.teams:
+            schedule_master_list.append([team, team.schedule])
+        for oppo in schedule_master_list:
+            setattr(oppo[0], 'rsos', round(s.mean([i.points_for for i in oppo[1][(get_week()+1):]]) / get_week(), 1))
+
 
 
 
@@ -150,6 +163,7 @@ def home(request):
 	our_league = BetterLeague(league_id, year)
 	our_league.pwr_ranking()
 	our_league.strength_of_schedule()
+	our_league.remaining_sos()
 
 	context = {
 		'league_team_list': our_league.teams,

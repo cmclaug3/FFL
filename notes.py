@@ -120,10 +120,7 @@
 
 
 
-# SORTABLE GRAPH IS WRONG BECAUSE IT USES DATA FROM UNCOMPLETED GAMES
-
-# big problems with uncompleted game data in GRAPH
-# 	need to change strict pf / pa to only use score data AFTER game
+# SORTABLE GRAPH IS sorting record wrong needs to have second value pf sort
 
 
 
